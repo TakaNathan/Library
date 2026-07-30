@@ -17,7 +17,7 @@ def add_book() :
 
 
 def save_book(new_book) :
-    with open("Library.csv",'a') as library :
+    with open("Library.csv",'a', newline='', encoding='utf-8') as library :
         writer = csv.writer(library,delimiter=",")
         writer.writerow(new_book)
 
@@ -41,31 +41,26 @@ def header_writer() : # J'AI FAIT CETTE fonction pour que le header s'ecrive s'i
 def delete_book() :
     is_name_there = False
     book_name = input("Type the title of the book :  ")
-    with open("Library.csv","r+") as library :
-        writer = csv.DictWriter(library,fieldnames=["title","autor","nature","pages","price"])#J'use dictwriter pour reecrire le fichier apres chaque delete
-        reader = csv.DictReader(library,delimiter=",")
-        #reader est un objet de dictionnaire et pour pouvoir supprimer un element je le transform en list
-        """for book in reader : #le [:] me permet de faire une copie(slice) de la liste te c'est elle que je parcoure mais je modifie l'original
-            if book["title"] == book_name :
-                is_name_there = True
-                reader.remove(book)
-                break
-        if  not is_name_there :
-            print("name not found in the library")
-        clear_library()
-        for line in reader :
-            writer.writerow(line)"""
-        for book in reader :
-            if book["title"] == book_name :
-                is_name_there = True
-                book.clear()
-                break
-        if  not is_name_there :
-            print("name not found in the library")
-        clear_library()
-        for line in reader :
-            writer.writerow(line)
 
+    with open("Library.csv", "r", newline='', encoding='utf-8') as library :
+        reader = csv.DictReader(library, delimiter=",")
+        reader = list(reader)
+
+    # Supprime le livre dans la liste en mémoire
+    for book in reader :
+        if book["title"] == book_name :
+            is_name_there = True
+            reader.remove(book)
+            break
+
+    if not is_name_there :
+        print("title not found in the library")
+    else :
+        with open("Library.csv", "w", newline='', encoding='utf-8') as library :
+            writer = csv.DictWriter(library, fieldnames=["title","autor","nature","pages","price"])
+            writer.writeheader()
+            writer.writerows(reader)
+        
 def library_launcher() : 
     header_writer()
     print("Welcome to the portable Library glad to serve you today")
