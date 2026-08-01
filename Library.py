@@ -11,9 +11,11 @@ def add_book() :
             new_book.append(input("Type the nature :  "))
             new_book.append(int(input("Type the number of pages :  ")))
             new_book.append(int(input("Type the price($) :  ")))
+            print(f"{new_book[0]} added successfully")
             return new_book
         except ValueError:
             print("number of pages or price incorrect! try numeric values(ex:23)")
+    
 
 
 def save_book(new_book) :
@@ -49,11 +51,25 @@ def display_all_books() :
             print(f"Autor: {book["autor"]}")
             print(f"Nature: {book["nature"]}")
             print(f"Number of Pages: {book["pages"]}")
-            print(f"Price: {book["price"]}")
+            print(f"Price: {book["price"]}$")
             print("*******************")
             print("\n")
             i+=1
-            
+
+
+def restart_library_launcher() :
+    closer_library_reponse = input("Would you like to stay in the library (Y/N) ?")
+    match closer_library_reponse :
+        case "N" :
+            print("Good bye and hoping to see you very soon")
+        case "Y" :
+            library_launcher()
+        case "_" :
+            print("please type a valid answer (Y/N)")
+            restart_library_launcher()
+
+
+
 def delete_book() :
     is_name_there = False
     book_name = input("Type the title of the book :  ")
@@ -102,6 +118,9 @@ def library_launcher() :
             print("Library cleared successfully")
         case _ :
             library_launcher()
+    restart_library_launcher()
         
 library_launcher()
+
+
     
