@@ -38,6 +38,22 @@ def header_writer() : # J'AI FAIT CETTE fonction pour que le header s'ecrive s'i
                 clear_library() 
             break
 
+def display_all_books() :
+     i=1
+     print("All the books : \n")
+     with open("Library.csv", "r") as library :
+         reader = csv.DictReader(library,delimiter=",")
+         for book in reader :
+            print(f"Book N#{i}")
+            print(f"Title: {book["title"]}")
+            print(f"Autor: {book["autor"]}")
+            print(f"Nature: {book["nature"]}")
+            print(f"Number of Pages: {book["pages"]}")
+            print(f"Price: {book["price"]}")
+            print("*******************")
+            print("\n")
+            i+=1
+            
 def delete_book() :
     is_name_there = False
     book_name = input("Type the title of the book :  ")
@@ -51,6 +67,7 @@ def delete_book() :
         if book["title"] == book_name :
             is_name_there = True
             reader.remove(book)
+            print("Book deleted succesfully")
             break
 
     if not is_name_there :
@@ -78,11 +95,13 @@ def library_launcher() :
             save_book(new_book)
         case 2 :
             delete_book()
+        case 3 :
+            display_all_books()
         case 4 :
             clear_library()
             print("Library cleared successfully")
         case _ :
-            print("incomplet")
+            library_launcher()
         
 library_launcher()
     
