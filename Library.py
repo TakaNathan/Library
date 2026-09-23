@@ -5,7 +5,7 @@ import csv
 def add_book() :
     while True :
         try :
-            new_book = []
+            new_book = []#pour ajouter un livre je cree une liste vide et j'y ajoute les elements un par un sachant que chaque liste est une nouvelle ligne
             new_book.append(input("Type the title :  "))
             new_book.append(input("Type the autor :  "))
             new_book.append(input("Type the nature :  "))
@@ -26,7 +26,7 @@ def save_book(new_book) :
 def clear_library() : # cette fonction permet de supprimer toute la library mais en gardant le header
     clearer = open("Library.csv","w")
     clearer.write("")
-    clearer.close()
+    clearer.close()#on supprime tout on ferme ensuite on reouvre et on reecrit le header
     header = open("Library.csv","w")
     header.write("title,autor,nature,pages,price\n")
     header.close()
@@ -45,6 +45,8 @@ def display_all_books() :
      print("All the books : \n")
      with open("Library.csv", "r") as library :
          reader = csv.DictReader(library,delimiter=",")
+         #car DictReader permet de lire le fichier csv et de le transformer en dictionnaire pour pouvoir acceder aux elements par leur nom
+         #avec les differents elements de la premiere ligne du fichier csv comme clefs et les elements de chaque ligne comme valeurs
          for book in reader :
             print(f"Book N#{i}")
             print(f"Title: {book["title"]}")
@@ -91,8 +93,8 @@ def delete_book() :
     else :
         with open("Library.csv", "w", newline='', encoding='utf-8') as library :
             writer = csv.DictWriter(library, fieldnames=["title","autor","nature","pages","price"])
-            writer.writeheader()
-            writer.writerows(reader)
+            writer.writeheader()#writeheader() permet d'ecrire le header dans le fichier csv
+            writer.writerows(reader)#writerows() permet d'ecrire les lignes dans le fichier csv a partir de la liste reader qui contient les livres restants
         
 def library_launcher() : 
     header_writer()
